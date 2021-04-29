@@ -8,7 +8,7 @@ if (Modernizr.webgl) {
   //Load data and config file
   d3.queue()
     .defer(d3.json, "data/config.json")
-    .defer(d3.csv, "data/data.csv")
+    .defer(d3.csv, "data/datacut2.csv")
     .await(ready);
 
   function ready(error, config, data) {
@@ -30,7 +30,7 @@ if (Modernizr.webgl) {
     map = new mapboxgl.Map({
       container: 'map', // container id
       style: 'data/style.json', //stylesheet location
-      center: [-0.12, 51.5], // starting position 51.5074° N, 0.1278
+      center: [-3.17, 51.48], // starting position 51.5074° N, 0.1278
       maxBounds: [[-12.836, 49.441], [7.604, 55.945]],//limit it to just E&W
       zoom: 12, // starting zoom
       minZoom: 4,
@@ -67,11 +67,13 @@ if (Modernizr.webgl) {
     map.getCanvasContainer().style.cursor = 'pointer';
 
     addFullscreen();
-
+    console.log("1");
+    //console.log(breaks);
     // if breaks is jenks or equal
     // get all the numbers, filter out the blanks, and then sort them
     breaks = generateBreaks(data, dvc);
-
+    console.log(data);
+    console.log(breaks);
     //Load colours
     if (typeof dvc.varcolour === 'string') {
       colour = colorbrewer[dvc.varcolour][dvc.numberBreaks];
@@ -81,8 +83,8 @@ if (Modernizr.webgl) {
 
     //set up d3 color scales
     color = d3.scaleThreshold()
-      .domain(breaks.slice(1))
-      .range(colour);
+       .domain([1, 2, 3, 4, 5, 6, 7, 8, 9,  10])
+      .range(["#BC6B7D", "#DA8880", "#EDAA93", "#F7CFA6", "#FBECBF", "#EBF4BF", "#D0E7AD", "#AED5A6", "#87BF99", "#74A289"]);
 
     //now ranges are set we can call draw the key
     createKey(dvc);
@@ -334,7 +336,7 @@ if (Modernizr.webgl) {
         .style("top", "-5px")
         .text(function(d, i) {
           if (i != breaks.length - 1) {
-            return "£" + displayformat(breaks[i]) + " to £" + displayformat(breaks[i + 1] - 1);
+            return "Index : " + displayformat(breaks[i]);
           } else {
             return "No Data";
           }
@@ -507,6 +509,8 @@ function generateBreaks(data, dvc) {
       return +d.value;
     }).filter(function(d) {
       if (!isNaN(d)) {
+        console.log("values");
+      console.log(d);
         return d;
       }
     }).sort(d3.ascending);
@@ -555,7 +559,7 @@ function onLeave() {
 function setAxisVal(areanm, areaval) {
   d3.select("#keyvalue").html(function() {
     if (!isNaN(areaval)) {
-      return areanm + "<br>" + "£" + displayformat(areaval);
+      return areanm + "<br>" + "Index: " + displayformat(areaval);
     } else {
       return areanm + "<br>No data available";
     }
@@ -564,7 +568,7 @@ function setAxisVal(areanm, areaval) {
 
 function setScreenreader(name, value) {
   if (!isNaN(value)) {
-    d3.select("#screenreadertext").text("The average house price paid in " + name + " is £" + d3.format(",")(value));
+    d3.select("#screenreadertext").text("The index of deprivation in " + name + " is " + d3.format(",")(value));
   } else {
     d3.select("#screenreadertext").text("There is no data available for " + name);
   }

@@ -1,11 +1,11 @@
 {"ons":{
-"maptitle": "Median house price",
-"varcolour": ["#7FCDBB", "#41B6C4", "#1D91C0", "#225EA8", "#0C2C84"],
-"varunit": "Median house price",
+"maptitle": "Index of deprivation",
+"varcolour": ["#BC6B7D", "#DA8880", "#EDAA93", "#F7CFA6", "#FBECBF", "#EBF4BF", "#D0E7AD", "#AED5A6", "#87BF99", "#74A289"],
+"varunit": "Index Value",
 "displaydecimals": 0,
 "legenddecimals": 0,
-"breaks": [25000,150000,232500,350000,925000,5000000],
+"breaks": [1,2,3,4,5,6,7,8,9,10,11],
 "dropticks": true,
-"numberBreaks": 5,
+"numberBreaks": 11,
 "nullColour": "#666"
 }}
